@@ -1,8 +1,10 @@
 package br.edu.atitus.greetingservice.controllers;
 
 import br.edu.atitus.greetingservice.configs.GreetingConfig;
+import br.edu.atitus.greetingservice.dto.GreetingDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/greeting")
@@ -29,6 +31,18 @@ public class GreetingController {
         }
         String greetingReturn = String.format("%s %s!!!", config.getGreeting(), name);
         return greetingReturn;
+    }
+
+    @PostMapping
+    public String postGreeting (@RequestBody GreetingDTO request) {
+
+        String user = request.getUser();
+
+        if (user == null || user.isEmpty()){
+            user = config.getDefaultName();
+        }
+        return String.format("%s %s!!!", config.getGreeting(), user);
+
     }
 
 }
