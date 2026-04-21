@@ -10,8 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-    // ADICIONAR OS OPTIONALS PARA FILTROS, POR DESCRIÇÃO, ID, INTERVALO DE VALOR, MARCA, ETC.
 
-    Optional<ProductEntity> findByIdAndCurrency(Long id,
-                                                String currency);
 }
