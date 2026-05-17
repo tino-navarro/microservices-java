@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("currency")
 public class CurrencyController {
 
+    @Value("${server.port}")
+    private String port;
+
     private final CurrencyRepository repository;
 
     public CurrencyController(CurrencyRepository repository) {
@@ -28,14 +31,18 @@ public class CurrencyController {
 
         source = source.toUpperCase();
         target = target.toUpperCase();
+
         CurrencyEntity currency = repository.
                 findBySourceCurrencyAndTargetCurrency(source, target)
                 .orElseThrow(() -> new Exception("Currency not found"));
+
+        String environment = "Currency-service running on port: " + port;
+
         CurrencyDTO dto = new CurrencyDTO(
                 currency.getSourceCurrency(),
                 currency.getTargetCurrency(),
                 currency.getConversionRate(),
-                "No Environment"
+                environment
 
         );
         return ResponseEntity.ok(dto);
